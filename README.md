@@ -56,7 +56,6 @@ Site chrome component used by every page template. Renders the header (owner nam
 |---|---|
 | `astro_background/1` | Full-viewport SVG; JS in `app.js` fills it with a grid of astronomy symbols |
 | `app/1` | Page wrapper with header and main |
-| `theme_toggle/1` | System / light / dark switcher, persisted to `localStorage` |
 | `flash_group/1` | Info and error flash banners |
 
 ### Owner name

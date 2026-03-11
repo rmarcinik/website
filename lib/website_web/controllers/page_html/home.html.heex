@@ -3,16 +3,13 @@
   <%!-- Index panel --%>
   <nav class="index-panel">
     <p class="panel-path">{Application.get_env(:website, :owner_name)}</p>
+    
     <ul class="space-y-1">
-      <li data-nav-item>
-        <a href="/projects" class="nav-link">projects/</a>
-      </li>
-      <li data-nav-item>
-        <a href="/tests" class="nav-link">tests/</a>
-      </li>
+      <li data-nav-item><a href="/projects" class="nav-link">projects/</a></li>
+      
+      <li data-nav-item><a href="/tests" class="nav-link">tests/</a></li>
     </ul>
   </nav>
-
-  <%!-- Content panel --%>
+   <%!-- Content panel --%>
   <div class="flex-1"></div>
 </div>
