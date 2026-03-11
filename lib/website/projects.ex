@@ -11,7 +11,7 @@ defmodule Website.Projects do
     %{
       name: "art",
       projects: [
-        %{type: :typography, name: "ambigram", description: "Rigel ambigram logo", image: "/images/ambigram-white.svg", url: "/ambigram"}
+        %{type: :art, name: "ambigram", description: "Rigel ambigram logo", image: "/images/ambigram-white.svg", url: "/ambigram"}
       ]
     }
   ]
