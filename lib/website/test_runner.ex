@@ -1,7 +1,14 @@
 defmodule Website.TestRunner do
   @moduledoc "Loads test results from the static artifact produced by mix website.save_test_results."
 
-  defstruct total: 0, passed: 0, failed: 0, duration: nil, modules: [], failures: [], ok?: true, raw: ""
+  defstruct total: 0,
+            passed: 0,
+            failed: 0,
+            duration: nil,
+            modules: [],
+            failures: [],
+            ok?: true,
+            raw: ""
 
   def load do
     path = Path.join(:code.priv_dir(:website), "test_results.json")

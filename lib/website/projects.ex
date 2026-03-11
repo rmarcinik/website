@@ -3,15 +3,36 @@ defmodule Website.Projects do
     %{
       name: "github",
       projects: [
-        %{type: :github, repo: "rmarcinik/mehome", name: "mehome", description: "home lab infrastructure"},
-        %{type: :github, repo: "rmarcinik/website", name: "website", description: "personal website"},
-        %{type: :github, repo: "rmarcinik/ZombieGame", name: "ZombieGame", description: "turn based escape game"}
+        %{
+          type: :github,
+          repo: "rmarcinik/mehome",
+          name: "mehome",
+          description: "home lab infrastructure"
+        },
+        %{
+          type: :github,
+          repo: "rmarcinik/website",
+          name: "website",
+          description: "personal website"
+        },
+        %{
+          type: :github,
+          repo: "rmarcinik/ZombieGame",
+          name: "ZombieGame",
+          description: "turn based escape game"
+        }
       ]
     },
     %{
       name: "art",
       projects: [
-        %{type: :art, name: "ambigram", description: "Rigel ambigram logo", image: "/images/ambigram-white.svg", url: "/ambigram"}
+        %{
+          type: :art,
+          name: "ambigram",
+          description: "Rigel ambigram logo",
+          image: "/images/ambigram-white.svg",
+          url: "/ambigram"
+        }
       ]
     }
   ]

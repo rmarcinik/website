@@ -21,7 +21,7 @@ defmodule Website.MixProject do
   def application do
     [
       mod: {Website.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :inets, :ssl]
     ]
   end
 
@@ -78,7 +78,13 @@ defmodule Website.MixProject do
         "esbuild website --minify",
         "phx.digest"
       ],
-      precommit: ["compile --warnings-as-errors", "deps.unlock --unused", "format", "website.save_test_results"]
+      precommit: [
+        "compile --warnings-as-errors",
+        "deps.unlock --unused",
+        "format",
+        "website.fetch_github_stats",
+        "website.save_test_results"
+      ]
     ]
   end
 end

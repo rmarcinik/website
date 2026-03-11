@@ -1,6 +1,5 @@
 <Layouts.flash_group flash={@flash} />
 <div class="page-layout">
-
   <%!-- Index panel --%>
   <nav class="index-panel" data-back="/">
     <p class="panel-path">{Application.get_env(:website, :owner_name)}/tests/</p>
@@ -30,7 +29,10 @@
       <%!-- Progress bar --%>
       <div class="test-progress-track">
         <div
-          class={["test-progress-bar", if(@results.ok?, do: "test-progress-bar--pass", else: "test-progress-bar--fail")]}
+          class={[
+            "test-progress-bar",
+            if(@results.ok?, do: "test-progress-bar--pass", else: "test-progress-bar--fail")
+          ]}
           style={"width: #{if @results.total > 0, do: Float.round(@results.passed / @results.total * 100, 1), else: 0}%"}
         />
       </div>
@@ -44,8 +46,16 @@
               <ul class="test-list">
                 <%= for t <- mod.tests do %>
                   <li class="test-item">
-                    <span class={if t.passed?, do: "test-dot test-dot--pass", else: "test-dot test-dot--fail"} />
-                    <span class={if t.passed?, do: "test-item-name", else: "test-item-name test-item-name--fail"}>{t.name}</span>
+                    <span class={
+                      if t.passed?, do: "test-dot test-dot--pass", else: "test-dot test-dot--fail"
+                    } />
+                    <span class={
+                      if t.passed?,
+                        do: "test-item-name",
+                        else: "test-item-name test-item-name--fail"
+                    }>
+                      {t.name}
+                    </span>
                   </li>
                 <% end %>
               </ul>
@@ -72,5 +82,4 @@
       <% end %>
     </div>
   </div>
-
 </div>

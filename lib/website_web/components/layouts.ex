@@ -47,7 +47,9 @@ defmodule WebsiteWeb.Layouts do
   def app(assigns) do
     ~H"""
     <header class="px-8 py-6 flex items-center justify-between border-b border-base-300">
-      <a href="/" class="text-sm font-semibold tracking-tight">{Application.get_env(:website, :owner_name)}</a>
+      <a href="/" class="text-sm font-semibold tracking-tight">
+        {Application.get_env(:website, :owner_name)}
+      </a>
       <.theme_toggle />
     </header>
 

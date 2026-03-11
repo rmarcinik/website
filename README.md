@@ -69,6 +69,6 @@ Read in templates via `Application.get_env(:website, :owner_name)`.
 
 ### Assets
 
-- **CSS**: `assets/css/app.css` — Tailwind v4 + DaisyUI themes
+- **CSS**: `assets/css/app.css` — Tailwind v4
 - **JS**: `assets/js/app.js` — flash handler, astronomy background renderer
 - Bundled by esbuild + Tailwind, output to `priv/static/assets/`

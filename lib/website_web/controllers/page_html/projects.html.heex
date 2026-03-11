@@ -1,6 +1,5 @@
 <Layouts.flash_group flash={@flash} />
 <div class="page-layout">
-
   <%!-- Index panel --%>
   <nav class="index-panel" data-back="/">
     <p class="panel-path">{Application.get_env(:website, :owner_name)}/projects/</p>
@@ -10,10 +9,17 @@
           <p class="category-label">{category.name}</p>
           <ul class="space-y-1">
             <%= for project <- category.projects do %>
-              <li data-nav-item {if @selected_project && project.name == @selected_project.name, do: ["data-current": true], else: []}>
+              <li
+                data-nav-item
+                {if @selected_project && project.name == @selected_project.name, do: ["data-current": true], else: []}
+              >
                 <a
                   href={"/projects/#{project.name}"}
-                  class={if @selected_project && project.name == @selected_project.name, do: "nav-link-active", else: "nav-link"}
+                  class={
+                    if @selected_project && project.name == @selected_project.name,
+                      do: "nav-link-active",
+                      else: "nav-link"
+                  }
                 >
                   {project.name}
                 </a>
@@ -31,8 +37,8 @@
       <div class="content-inner">
         <%= case @selected_project.type do %>
           <% :github -> %>
-            <div class="flex items-baseline justify-between gap-4">
-              <p class="project-name">{@selected_project.name}</p>
+            <div class="project-header">
+              <span class="project-name">{@selected_project.name}</span>
               <a
                 href={"https://github.com/#{@selected_project.repo}"}
                 target="_blank"
@@ -42,18 +48,53 @@
                 {@selected_project.repo}
               </a>
             </div>
-            <a
-              href={"https://github.com/#{@selected_project.repo}"}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="project-image-link"
-            >
-              <img
-                src={"https://opengraph.githubassets.com/1/#{@selected_project.repo}"}
-                alt={@selected_project.name}
-                class="project-image"
-              />
-            </a>
+            <%= if @github_stats do %>
+              <div class="github-stats">
+                <div class="stats-grid">
+                  <div class="stats-row">
+                    <span class="stats-label">stars</span>
+                    <span class="stats-value">{@github_stats.stars}</span>
+                  </div>
+                  <div class="stats-row">
+                    <span class="stats-label">forks</span>
+                    <span class="stats-value">{@github_stats.forks}</span>
+                  </div>
+                  <div class="stats-row">
+                    <span class="stats-label">issues</span>
+                    <span class="stats-value">{@github_stats.issues}</span>
+                  </div>
+                  <div class="stats-row">
+                    <span class="stats-label">pushed</span>
+                    <span class="stats-value">{@github_stats.pushed_at}</span>
+                  </div>
+                </div>
+                <%= if length(@github_stats.languages) > 0 do %>
+                  <div class="lang-list">
+                    <%= for lang <- @github_stats.languages do %>
+                      <div class="lang-row">
+                        <span class="lang-name">{lang.name}</span>
+                        <div class="lang-bar-track">
+                          <div class="lang-bar-fill" style={"width: #{lang.pct}%"}></div>
+                        </div>
+                        <span class="lang-pct">{lang.pct}%</span>
+                      </div>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+              <%= if length(@github_stats.commit_grid) > 0 do %>
+                <div class="commit-grid">
+                  <%= for week <- @github_stats.commit_grid do %>
+                    <%= for level <- week do %>
+                      <div class="commit-cell" style={"--level: #{level}"}></div>
+                    <% end %>
+                  <% end %>
+                </div>
+              <% end %>
+              <%= if @github_stats.readme do %>
+                <pre class="readme-content">{@github_stats.readme}</pre>
+              <% end %>
+            <% end %>
           <% :art -> %>
             <p class="project-name">{@selected_project.name}</p>
             <img
@@ -72,5 +113,4 @@
       </div>
     <% end %>
   </div>
-
 </div>
