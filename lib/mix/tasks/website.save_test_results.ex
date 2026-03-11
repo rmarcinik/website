@@ -20,6 +20,8 @@ defmodule Mix.Tasks.Website.SaveTestResults do
     File.mkdir_p!(Path.dirname(@artifact_path))
     File.write!(@artifact_path, Jason.encode!(result))
     Mix.shell().info("Saved test results to #{@artifact_path}")
+
+    if exit_code != 0, do: Mix.raise("Tests failed")
   end
 
   defp strip_ansi(str), do: Regex.replace(~r/\e\[[0-9;]*m/, str, "")
