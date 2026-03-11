@@ -15,5 +15,6 @@ defmodule WebsiteWeb.Router do
 
     get "/", PageController, :home
     get "/projects", PageController, :projects
+    get "/tests", PageController, :tests
   end
 end

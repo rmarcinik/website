@@ -11,4 +11,8 @@ defmodule WebsiteWeb.PageController do
       selected_project: Website.Projects.find(params["project"])
     )
   end
+
+  def tests(conn, _params) do
+    render(conn, :tests, results: Website.TestRunner.run())
+  end
 end

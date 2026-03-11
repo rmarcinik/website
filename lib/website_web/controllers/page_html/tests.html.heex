@@ -1,0 +1,76 @@
+<Layouts.flash_group flash={@flash} />
+<div class="page-layout">
+
+  <%!-- Index panel --%>
+  <nav class="index-panel" data-back="/">
+    <p class="panel-path">~/tests/</p>
+    <ul class="space-y-1">
+      <li data-nav-item>
+        <span class={if @results.ok?, do: "test-status-pass", else: "test-status-fail"}>
+          {if @results.ok?, do: "pass", else: "fail"}
+        </span>
+      </li>
+    </ul>
+
+    <div class="test-stats">
+      <p><span class="test-stat-value">{@results.total}</span> total</p>
+      <p><span class="test-stat-value test-stat-pass">{@results.passed}</span> passed</p>
+      <%= if @results.failed > 0 do %>
+        <p><span class="test-stat-value test-stat-fail">{@results.failed}</span> failed</p>
+      <% end %>
+      <%= if @results.duration do %>
+        <p class="test-stat-duration">{@results.duration}s</p>
+      <% end %>
+    </div>
+  </nav>
+
+  <%!-- Content panel --%>
+  <div class="content-panel">
+    <div class="content-inner">
+      <%!-- Progress bar --%>
+      <div class="test-progress-track">
+        <div
+          class={["test-progress-bar", if(@results.ok?, do: "test-progress-bar--pass", else: "test-progress-bar--fail")]}
+          style={"width: #{if @results.total > 0, do: Float.round(@results.passed / @results.total * 100, 1), else: 0}%"}
+        />
+      </div>
+
+      <%!-- Test tree by module --%>
+      <%= if @results.modules != [] do %>
+        <div class="test-modules">
+          <%= for mod <- @results.modules do %>
+            <div class="test-module">
+              <p class="test-module-name">{mod.name}</p>
+              <ul class="test-list">
+                <%= for t <- mod.tests do %>
+                  <li class="test-item">
+                    <span class={if t.passed?, do: "test-dot test-dot--pass", else: "test-dot test-dot--fail"} />
+                    <span class={if t.passed?, do: "test-item-name", else: "test-item-name test-item-name--fail"}>{t.name}</span>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+
+      <%!-- Failures detail --%>
+      <%= if @results.failures != [] do %>
+        <div class="test-failures">
+          <%= for failure <- @results.failures do %>
+            <div class="test-failure">
+              <p class="test-failure-name">{failure.name}</p>
+              <p class="test-failure-location">{failure.location}</p>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+
+      <%!-- Raw output fallback when parsing yields nothing --%>
+      <%= if @results.total == 0 do %>
+        <pre class="test-raw-output">{@results.raw}</pre>
+      <% end %>
+    </div>
+  </div>
+
+</div>
