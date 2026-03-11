@@ -13,6 +13,6 @@ defmodule WebsiteWeb.PageController do
   end
 
   def tests(conn, _params) do
-    render(conn, :tests, results: Website.TestRunner.run())
+    render(conn, :tests, results: Website.TestRunner.load())
   end
 end

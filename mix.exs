@@ -78,7 +78,7 @@ defmodule Website.MixProject do
         "esbuild website --minify",
         "phx.digest"
       ],
-      precommit: ["compile --warnings-as-errors", "deps.unlock --unused", "format", "test"]
+      precommit: ["compile --warnings-as-errors", "deps.unlock --unused", "format", "website.save_test_results"]
     ]
   end
 end
