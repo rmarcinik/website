@@ -118,3 +118,8 @@ const initKeyNav = () => {
 }
 
 initKeyNav()
+
+// Rotatable images (e.g. ambigram)
+document.querySelectorAll("[data-rotatable]").forEach((img) => {
+  img.addEventListener("click", () => img.classList.toggle("rotated"))
+})

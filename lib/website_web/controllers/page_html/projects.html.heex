@@ -29,31 +29,41 @@
   <div class="content-panel">
     <%= if @selected_project do %>
       <div class="content-inner">
-        <div class="flex items-baseline justify-between gap-4">
-          <p class="project-name">{@selected_project.name}</p>
-          <a
-            href={"https://github.com/#{@selected_project.repo}"}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="repo-link"
-          >
-            {@selected_project.repo}
-          </a>
-        </div>
-
-        <a
-          href={"https://github.com/#{@selected_project.repo}"}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="project-image-link"
-        >
-          <img
-            src={"https://opengraph.githubassets.com/1/#{@selected_project.repo}"}
-            alt={@selected_project.name}
-            class="project-image"
-          />
-        </a>
-
+        <%= case @selected_project.type do %>
+          <% :github -> %>
+            <div class="flex items-baseline justify-between gap-4">
+              <p class="project-name">{@selected_project.name}</p>
+              <a
+                href={"https://github.com/#{@selected_project.repo}"}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="repo-link"
+              >
+                {@selected_project.repo}
+              </a>
+            </div>
+            <a
+              href={"https://github.com/#{@selected_project.repo}"}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="project-image-link"
+            >
+              <img
+                src={"https://opengraph.githubassets.com/1/#{@selected_project.repo}"}
+                alt={@selected_project.name}
+                class="project-image"
+              />
+            </a>
+          <% :typography -> %>
+            <p class="project-name">{@selected_project.name}</p>
+            <img
+              src={@selected_project.image}
+              alt={@selected_project.name}
+              class="project-image project-image--rotatable"
+              data-rotatable
+            />
+            <p class="project-rotate-hint">click to rotate</p>
+        <% end %>
         <p class="project-description">{@selected_project.description}</p>
       </div>
     <% else %>

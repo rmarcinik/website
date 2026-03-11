@@ -82,16 +82,26 @@ defmodule WebsiteWeb.PageControllerTest do
         assert body =~ project.description
       end
 
-      test "shows #{@project.name} repo link", %{conn: conn} do
-        project = @project
-        conn = get(conn, ~p"/projects?project=#{project.name}")
-        assert html_response(conn, 200) =~ project.repo
-      end
-
       test "#{@project.name} does not show empty state", %{conn: conn} do
         project = @project
         conn = get(conn, ~p"/projects?project=#{project.name}")
         refute html_response(conn, 200) =~ "select a project"
+      end
+
+      if @project.type == :github do
+        test "shows #{@project.name} github repo link", %{conn: conn} do
+          project = @project
+          conn = get(conn, ~p"/projects?project=#{project.name}")
+          assert html_response(conn, 200) =~ project.repo
+        end
+      end
+
+      if @project.type == :typography do
+        test "shows #{@project.name} local image", %{conn: conn} do
+          project = @project
+          conn = get(conn, ~p"/projects?project=#{project.name}")
+          assert html_response(conn, 200) =~ project.image
+        end
       end
     end
   end
