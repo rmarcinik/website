@@ -8,7 +8,7 @@ defmodule WebsiteWeb.PageController do
   def projects(conn, params) do
     render(conn, :projects,
       project_categories: Website.Projects.categories(),
-      selected_project: Website.Projects.find(params["project"])
+      selected_project: Website.Projects.find(params["name"])
     )
   end
 

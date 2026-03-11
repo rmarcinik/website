@@ -3,7 +3,7 @@
 
   <%!-- Index panel --%>
   <nav class="index-panel">
-    <p class="panel-path">~/</p>
+    <p class="panel-path">{Application.get_env(:website, :owner_name)}</p>
     <ul class="space-y-1">
       <li data-nav-item>
         <a href="/projects" class="nav-link">projects/</a>
@@ -15,8 +15,6 @@
   </nav>
 
   <%!-- Content panel --%>
-  <div class="flex-1 flex items-center justify-center">
-    <h1 class="text-5xl font-bold tracking-tight">{Application.get_env(:website, :owner_name)}</h1>
-  </div>
+  <div class="flex-1"></div>
 
 </div>

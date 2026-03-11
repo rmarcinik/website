@@ -31,7 +31,7 @@ defmodule WebsiteWeb.PageControllerTest do
 
     test "shows breadcrumb path", %{conn: conn} do
       conn = get(conn, ~p"/projects")
-      assert html_response(conn, 200) =~ "~/projects/"
+      assert html_response(conn, 200) =~ "#{Application.get_env(:website, :owner_name)}/projects/"
     end
 
     test "shows all category names", %{conn: conn} do
@@ -62,8 +62,8 @@ defmodule WebsiteWeb.PageControllerTest do
       assert html_response(conn, 200) =~ ~s(data-back="/")
     end
 
-    test "falls back to empty state for unknown project param", %{conn: conn} do
-      conn = get(conn, ~p"/projects?project=nonexistent")
+    test "falls back to empty state for unknown project name", %{conn: conn} do
+      conn = get(conn, ~p"/projects/nonexistent")
       assert html_response(conn, 200) =~ "select a project"
     end
   end
@@ -76,7 +76,7 @@ defmodule WebsiteWeb.PageControllerTest do
 
       test "shows #{@project.name} name and description", %{conn: conn} do
         project = @project
-        conn = get(conn, ~p"/projects?project=#{project.name}")
+        conn = get(conn, ~p"/projects/#{project.name}")
         body = html_response(conn, 200)
         assert body =~ project.name
         assert body =~ project.description
@@ -84,14 +84,14 @@ defmodule WebsiteWeb.PageControllerTest do
 
       test "#{@project.name} does not show empty state", %{conn: conn} do
         project = @project
-        conn = get(conn, ~p"/projects?project=#{project.name}")
+        conn = get(conn, ~p"/projects/#{project.name}")
         refute html_response(conn, 200) =~ "select a project"
       end
 
       if @project.type == :github do
         test "shows #{@project.name} github repo link", %{conn: conn} do
           project = @project
-          conn = get(conn, ~p"/projects?project=#{project.name}")
+          conn = get(conn, ~p"/projects/#{project.name}")
           assert html_response(conn, 200) =~ project.repo
         end
       end
@@ -99,7 +99,7 @@ defmodule WebsiteWeb.PageControllerTest do
       if @project.type == :typography do
         test "shows #{@project.name} local image", %{conn: conn} do
           project = @project
-          conn = get(conn, ~p"/projects?project=#{project.name}")
+          conn = get(conn, ~p"/projects/#{project.name}")
           assert html_response(conn, 200) =~ project.image
         end
       end
