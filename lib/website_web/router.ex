@@ -14,5 +14,6 @@ defmodule WebsiteWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    get "/projects", PageController, :projects
   end
 end

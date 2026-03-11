@@ -1,0 +1,66 @@
+<Layouts.flash_group flash={@flash} />
+<div class="page-layout">
+
+  <%!-- Index panel --%>
+  <nav class="index-panel" data-back="/">
+    <p class="panel-path">~/projects/</p>
+    <ul class="space-y-4">
+      <%= for category <- @project_categories do %>
+        <li>
+          <p class="category-label">{category.name}</p>
+          <ul class="space-y-1">
+            <%= for project <- category.projects do %>
+              <li data-nav-item {if @selected_project && project.name == @selected_project.name, do: ["data-current": true], else: []}>
+                <a
+                  href={"/projects?project=#{project.name}"}
+                  class={if @selected_project && project.name == @selected_project.name, do: "nav-link-active", else: "nav-link"}
+                >
+                  {project.name}
+                </a>
+              </li>
+            <% end %>
+          </ul>
+        </li>
+      <% end %>
+    </ul>
+  </nav>
+
+  <%!-- Content panel --%>
+  <div class="content-panel">
+    <%= if @selected_project do %>
+      <div class="content-inner">
+        <div class="flex items-baseline justify-between gap-4">
+          <p class="project-name">{@selected_project.name}</p>
+          <a
+            href={"https://github.com/#{@selected_project.repo}"}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="repo-link"
+          >
+            {@selected_project.repo}
+          </a>
+        </div>
+
+        <a
+          href={"https://github.com/#{@selected_project.repo}"}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="project-image-link"
+        >
+          <img
+            src={"https://opengraph.githubassets.com/1/#{@selected_project.repo}"}
+            alt={@selected_project.name}
+            class="project-image"
+          />
+        </a>
+
+        <p class="project-description">{@selected_project.description}</p>
+      </div>
+    <% else %>
+      <div class="empty-state">
+        <p class="empty-state-text">select a project</p>
+      </div>
+    <% end %>
+  </div>
+
+</div>

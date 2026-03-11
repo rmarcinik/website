@@ -35,3 +35,6 @@ website-*.tar
 npm-debug.log
 /assets/node_modules/
 
+.vscode/
+
+CLAUDE.md

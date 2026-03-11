@@ -8,7 +8,8 @@
 import Config
 
 config :website,
-  generators: [timestamp_type: :utc_datetime]
+  generators: [timestamp_type: :utc_datetime],
+  owner_name: "Rigel"
 
 # Configure the endpoint
 config :website, WebsiteWeb.Endpoint,

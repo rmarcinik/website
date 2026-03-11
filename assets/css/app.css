@@ -103,3 +103,33 @@
 [data-phx-session], [data-phx-teleported-src] { display: contents }
 
 /* This file is for your main application CSS */
+
+/* ── Layout ── */
+.page-layout     { @apply flex h-[calc(100vh-3.5rem)]; }
+.index-panel     { @apply w-1/5 border-r border-base-300 px-6 py-8 font-mono text-sm overflow-y-auto; }
+.content-panel   { @apply flex-1 overflow-y-auto; }
+.content-inner   { @apply px-10 py-8 space-y-4; }
+.panel-path      { @apply text-base-content/40 mb-3 text-xs; }
+.category-label  { @apply text-base-content/40 text-xs mb-1; }
+
+/* ── Navigation links ── */
+.nav-link        { @apply block transition-colors text-base-content/60 hover:text-base-content; }
+.nav-link-active { @apply block transition-colors text-primary font-semibold; }
+
+/* ── Keyboard nav cursor highlight ── */
+.nav-cursor {
+  background-color: var(--color-base-200);
+  border-radius: 0.25rem;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  margin-left: -0.25rem;
+}
+
+/* ── Project content ── */
+.project-name        { @apply font-mono text-sm font-semibold text-base-content; }
+.project-description { @apply text-sm text-base-content/70; }
+.project-image       { @apply w-full rounded border border-base-300; }
+.project-image-link  { @apply block hover:opacity-90 transition-opacity; }
+.repo-link           { @apply text-xs text-primary hover:text-primary/80 transition-colors; }
+.empty-state         { @apply flex h-full items-center justify-center; }
+.empty-state-text    { @apply font-mono text-sm text-base-content/30; }
