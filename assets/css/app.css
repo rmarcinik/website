@@ -26,9 +26,9 @@
   default: false;
   prefersdark: true;
   color-scheme: "dark";
-  --color-base-100: oklch(30.33% 0.016 252.42);
-  --color-base-200: oklch(25.26% 0.014 253.1);
-  --color-base-300: oklch(20.15% 0.012 254.09);
+  --color-base-100: oklch(20% 0.07 265);
+  --color-base-200: oklch(16% 0.06 265);
+  --color-base-300: oklch(12% 0.05 265);
   --color-base-content: oklch(97.807% 0.029 256.847);
   --color-primary: oklch(58% 0.233 277.117);
   --color-primary-content: oklch(96% 0.018 272.314);
@@ -103,6 +103,13 @@
 [data-phx-session], [data-phx-teleported-src] { display: contents }
 
 /* This file is for your main application CSS */
+
+/* Astronomy background symbol color — grayscale AA to avoid OLED subpixel fringing */
+#astro-bg {
+  color: oklch(75% 0.18 65);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
 
 /* ── Layout ── */
 .page-layout {

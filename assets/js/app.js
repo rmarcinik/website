@@ -25,9 +25,10 @@ const fillAstroBackground = () => {
   let i = 0
 
   for (let col = 0; col * spacing < w + spacing; col++) {
+    const stagger = (col % 2) * (spacing / 2)
     for (let row = 0; row * spacing < h + spacing; row++) {
       const x = Math.round(col * spacing + spacing / 2)
-      const y = Math.round(row * spacing + spacing / 2)
+      const y = Math.round(row * spacing + stagger + spacing / 2)
       const el = document.createElementNS(ns, "text")
       el.setAttribute("x", x)
       el.setAttribute("y", y)
