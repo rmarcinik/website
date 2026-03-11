@@ -96,7 +96,7 @@ defmodule WebsiteWeb.PageControllerTest do
         end
       end
 
-      if @project.type == :typography do
+      if @project.type == :art do
         test "shows #{@project.name} local image", %{conn: conn} do
           project = @project
           conn = get(conn, ~p"/projects/#{project.name}")
