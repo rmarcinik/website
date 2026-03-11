@@ -4,7 +4,8 @@ defmodule Website.Projects do
       name: "github",
       projects: [
         %{type: :github, repo: "rmarcinik/mehome", name: "mehome", description: "home lab infrastructure"},
-        %{type: :github, repo: "rmarcinik/website", name: "website", description: "personal website"}
+        %{type: :github, repo: "rmarcinik/website", name: "website", description: "personal website"},
+        %{type: :github, repo: "rmarcinik/ZombieGame", name: "ZombieGame", description: "turn based escape game"}
       ]
     },
     %{
