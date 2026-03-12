@@ -376,6 +376,12 @@ html, body {
   opacity: calc(var(--level) * 0.23 + 0.06);
 }
 
+/* ── Triangular mesh commit canvas ── */
+.commit-mesh {
+  display: block;
+  max-width: 100%;
+}
+
 /* ── README ── */
 .readme-content {
   font-family: monospace;
