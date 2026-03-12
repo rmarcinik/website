@@ -1,4 +1,6 @@
 defmodule Website.Projects do
+  @moduledoc "Single source of truth for project data. Used by the controller, templates, and tests."
+
   @categories [
     %{
       name: "github",

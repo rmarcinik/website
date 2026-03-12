@@ -1,4 +1,6 @@
 defmodule WebsiteWeb.PageComponents do
+  @moduledoc "Page-level HEEx components: two-panel layout, project navigation and content, test navigation and content."
+
   use Phoenix.Component
 
   @doc """
@@ -215,7 +217,9 @@ defmodule WebsiteWeb.PageComponents do
               <ul class="test-list">
                 <%= for t <- mod.tests do %>
                   <li class="test-item">
-                    <span class={if t.passed?, do: "test-dot test-dot--pass", else: "test-dot test-dot--fail"} />
+                    <span class={
+                      if t.passed?, do: "test-dot test-dot--pass", else: "test-dot test-dot--fail"
+                    } />
                     <span class={
                       if t.passed?, do: "test-item-name", else: "test-item-name test-item-name--fail"
                     }>

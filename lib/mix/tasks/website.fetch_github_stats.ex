@@ -63,43 +63,47 @@ defmodule Mix.Tasks.Website.FetchGithubStats do
   end
 
   defp commits_to_grid(commits) do
-    # Build a map of {week_index, day_of_week} -> count over the last 52 weeks
-    now = DateTime.utc_now()
-    epoch = DateTime.add(now, -52 * 7, :day)
-
-    counts =
-      Enum.reduce(commits, %{}, fn commit, acc ->
-        date_str = get_in(commit, ["commit", "author", "date"])
-
-        case date_str && DateTime.from_iso8601(date_str) do
-          {:ok, dt, _} ->
-            days_since = DateTime.diff(dt, epoch, :day)
-            week = div(days_since, 7)
-            day = rem(Date.day_of_week(DateTime.to_date(dt)), 7)
-
-            if week in 0..51,
-              do: Map.update(acc, {week, day}, 1, &(&1 + 1)),
-              else: acc
-
-          _ ->
-            acc
-        end
-      end)
-
+    epoch = DateTime.add(DateTime.utc_now(), -52 * 7, :day)
+    counts = build_counts(commits, epoch)
     max_count = counts |> Map.values() |> Enum.max(fn -> 1 end) |> max(1)
 
     for week <- 0..51 do
       for day <- 0..6 do
-        count = Map.get(counts, {week, day}, 0)
-
-        cond do
-          count == 0 -> 0
-          count <= max_count * 0.25 -> 1
-          count <= max_count * 0.5 -> 2
-          count <= max_count * 0.75 -> 3
-          true -> 4
-        end
+        intensity_level(Map.get(counts, {week, day}, 0), max_count)
       end
+    end
+  end
+
+  defp build_counts(commits, epoch) do
+    Enum.reduce(commits, %{}, fn commit, acc ->
+      case commit_cell(commit, epoch) do
+        {week, day} -> Map.update(acc, {week, day}, 1, &(&1 + 1))
+        nil -> acc
+      end
+    end)
+  end
+
+  defp commit_cell(commit, epoch) do
+    date_str = get_in(commit, ["commit", "author", "date"])
+
+    case date_str && DateTime.from_iso8601(date_str) do
+      {:ok, dt, _} ->
+        week = div(DateTime.diff(dt, epoch, :day), 7)
+        day = rem(Date.day_of_week(DateTime.to_date(dt)), 7)
+        if week in 0..51, do: {week, day}, else: nil
+
+      _ ->
+        nil
+    end
+  end
+
+  defp intensity_level(count, max_count) do
+    cond do
+      count == 0 -> 0
+      count <= max_count * 0.25 -> 1
+      count <= max_count * 0.5 -> 2
+      count <= max_count * 0.75 -> 3
+      true -> 4
     end
   end
 

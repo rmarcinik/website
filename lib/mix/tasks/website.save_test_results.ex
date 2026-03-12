@@ -72,27 +72,31 @@ defmodule Mix.Tasks.Website.SaveTestResults do
   defp parse_modules(lines) do
     lines
     |> Enum.reduce({[], nil}, fn line, {modules, current} ->
-      cond do
-        Regex.match?(~r/^\w[\w.]+(?:Test|Case)/, line) ->
-          name = line |> String.split(" ") |> List.first()
-          {modules, %{name: name, tests: []}}
-
-        match = current && Regex.run(~r/\* test (.+?) \((.+?)\)/, line) ->
-          [_, test_name, timing] = match
-          passed? = not String.contains?(timing, "FAILED")
-          test = %{name: test_name, passed: passed?}
-          {modules, %{current | tests: current.tests ++ [test]}}
-
-        String.trim(line) == "" && current != nil && current.tests != [] ->
-          {modules ++ [current], nil}
-
-        true ->
-          {modules, current}
-      end
+      handle_parse_line(line, modules, current)
     end)
     |> then(fn {modules, current} ->
       if current && current.tests != [], do: modules ++ [current], else: modules
     end)
+  end
+
+  defp handle_parse_line(line, modules, current) do
+    cond do
+      Regex.match?(~r/^\w[\w.]+(?:Test|Case)/, line) ->
+        name = line |> String.split(" ") |> List.first()
+        {modules, %{name: name, tests: []}}
+
+      match = current && Regex.run(~r/\* test (.+?) \((.+?)\)/, line) ->
+        [_, test_name, timing] = match
+        passed? = not String.contains?(timing, "FAILED")
+        test = %{name: test_name, passed: passed?}
+        {modules, %{current | tests: current.tests ++ [test]}}
+
+      String.trim(line) == "" && current != nil && current.tests != [] ->
+        {modules ++ [current], nil}
+
+      true ->
+        {modules, current}
+    end
   end
 
   defp parse_failures(output) do

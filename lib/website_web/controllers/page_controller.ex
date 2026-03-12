@@ -9,15 +9,11 @@ defmodule WebsiteWeb.PageController do
     selected = Website.Projects.find(params["name"])
 
     github_stats =
-      case selected do
-        %{type: :github, repo: repo} ->
-          case Website.Github.repo_stats(repo) do
-            {:ok, stats} -> stats
-            _ -> nil
-          end
-
-        _ ->
-          nil
+      with %{type: :github, repo: repo} <- selected,
+           {:ok, stats} <- Website.Github.repo_stats(repo) do
+        stats
+      else
+        _ -> nil
       end
 
     render(conn, :projects,
