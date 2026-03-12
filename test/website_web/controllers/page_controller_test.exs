@@ -74,12 +74,11 @@ defmodule WebsiteWeb.PageControllerTest do
     for project <- @projects do
       @project project
 
-      test "shows #{@project.name} name and description", %{conn: conn} do
+      test "shows #{@project.name} name", %{conn: conn} do
         project = @project
         conn = get(conn, ~p"/projects/#{project.name}")
         body = html_response(conn, 200)
         assert body =~ project.name
-        assert body =~ project.description
       end
 
       test "#{@project.name} does not show empty state", %{conn: conn} do

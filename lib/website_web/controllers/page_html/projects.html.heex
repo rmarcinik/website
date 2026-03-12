@@ -3,12 +3,12 @@
   <%!-- Index panel --%>
   <nav class="index-panel" data-back="/">
     <p class="panel-path">{Application.get_env(:website, :owner_name)}/projects/</p>
-    
+
     <ul class="space-y-4">
       <%= for category <- @project_categories do %>
         <li>
           <p class="category-label">{category.name}</p>
-          
+
           <ul class="space-y-1">
             <%= for project <- category.projects do %>
               <li
@@ -49,7 +49,7 @@
                 {@selected_project.repo}
               </a>
             </div>
-            
+
             <%= if @github_stats do %>
               <div class="github-stats">
                 <div class="stats-grid">
@@ -57,23 +57,23 @@
                     <span class="stats-label">stars</span>
                     <span class="stats-value">{@github_stats.stars}</span>
                   </div>
-                  
+
                   <div class="stats-row">
                     <span class="stats-label">forks</span>
                     <span class="stats-value">{@github_stats.forks}</span>
                   </div>
-                  
+
                   <div class="stats-row">
                     <span class="stats-label">issues</span>
                     <span class="stats-value">{@github_stats.issues}</span>
                   </div>
-                  
+
                   <div class="stats-row">
                     <span class="stats-label">pushed</span>
                     <span class="stats-value">{@github_stats.pushed_at}</span>
                   </div>
                 </div>
-                
+
                 <%= if length(@github_stats.languages) > 0 do %>
                   <div class="lang-list">
                     <%= for lang <- @github_stats.languages do %>
@@ -88,7 +88,7 @@
                   </div>
                 <% end %>
               </div>
-              
+
               <%= if length(@github_stats.commit_grid) > 0 do %>
                 <div class="commit-grid">
                   <%= for week <- @github_stats.commit_grid do %>
@@ -98,14 +98,14 @@
                   <% end %>
                 </div>
               <% end %>
-              
+
               <%= if @github_stats.readme do %>
                 <pre class="readme-content">{@github_stats.readme}</pre>
               <% end %>
             <% end %>
           <% :art -> %>
             <p class="project-name">{@selected_project.name}</p>
-            
+
             <img
               src={@selected_project.image}
               alt={@selected_project.name}
@@ -114,8 +114,7 @@
             />
             <p class="project-rotate-hint">click to rotate</p>
         <% end %>
-        
-        <p class="project-description">{@selected_project.description}</p>
+
       </div>
     <% else %>
       <div class="empty-state">
