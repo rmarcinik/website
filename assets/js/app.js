@@ -7,6 +7,90 @@ document.querySelectorAll("[role=alert][data-flash]").forEach((el) => {
   })
 })
 
+// Joy Division-style commit activity visualisation
+// Quadratic bezier curves + destination-out compositing for organic depth illusion
+const initCommitMesh = () => {
+  const canvas = document.querySelector("canvas.commit-mesh")
+  if (!canvas) return
+
+  const grid = JSON.parse(canvas.dataset.grid) // grid[week][day] = level 0–4
+  const weeks = grid.length
+  const days = grid[0]?.length ?? 7
+  const xStep = 14
+  const lineSpacing = 20
+  const topMargin = 10
+  const minPeak = 5
+  const maxPeak = 45
+  const noise = 1
+
+  const w = weeks * xStep
+  const h = topMargin + maxPeak + (days - 1) * lineSpacing + 10
+
+  const dpr = window.devicePixelRatio || 1
+  canvas.width = w * dpr
+  canvas.height = h * dpr
+  canvas.style.width = w + "px"
+  canvas.style.height = h + "px"
+
+  const ctx = canvas.getContext("2d")
+  ctx.scale(dpr, dpr)
+
+  // One point per week per day line
+  const lines = Array.from({ length: days }, (_, d) => {
+    const baselineY = topMargin + maxPeak + d * lineSpacing
+    const peakScale = minPeak + d * (maxPeak - minPeak) / Math.max(days - 1, 1)
+    return Array.from({ length: weeks }, (_, wk) => {
+      const level = grid[wk]?.[d] ?? 0
+      const displacement = (level / 4) * peakScale
+      return {
+        x: wk * xStep + xStep / 2,
+        y: baselineY - displacement + (Math.random() * 2 - 1) * noise,
+      }
+    })
+  })
+
+  // Append quadratic bezier curves through midpoints to the current path
+  const buildCurve = (line) => {
+    for (let j = 0; j < line.length - 2; j++) {
+      const xc = (line[j].x + line[j + 1].x) / 2
+      const yc = (line[j].y + line[j + 1].y) / 2
+      ctx.quadraticCurveTo(line[j].x, line[j].y, xc, yc)
+    }
+    const n = line.length - 1
+    ctx.quadraticCurveTo(line[n - 1].x, line[n - 1].y, line[n].x, line[n].y)
+  }
+
+  for (let d = 0; d < days; d++) {
+    const line = lines[d]
+    const by = topMargin + maxPeak + d * lineSpacing
+
+    // Fill silhouette with destination-out to erase lines drawn behind this one
+    ctx.beginPath()
+    ctx.moveTo(-1, by)
+    ctx.lineTo(line[0].x, line[0].y)
+    buildCurve(line)
+    ctx.lineTo(w + 1, by)
+    ctx.lineTo(w + 1, h + 1)
+    ctx.lineTo(-1, h + 1)
+    ctx.closePath()
+    ctx.save()
+    ctx.globalCompositeOperation = "destination-out"
+    ctx.fill()
+    ctx.restore()
+
+    // Stroke the waveform
+    ctx.beginPath()
+    ctx.moveTo(line[0].x, line[0].y)
+    buildCurve(line)
+    ctx.strokeStyle = "rgba(255,255,255,0.65)"
+    ctx.lineWidth = 1.5
+    ctx.lineJoin = "round"
+    ctx.stroke()
+  }
+}
+
+initCommitMesh()
+
 // Site search (runs on any page with #site-search)
 const initSearch = () => {
   const input = document.getElementById("site-search")

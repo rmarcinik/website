@@ -155,73 +155,12 @@ defmodule WebsiteWeb.PageComponents do
     """
   end
 
-  @doc "Triangular mesh SVG visualisation of commit activity. Rendered server-side."
+  @doc "Joy Division-style canvas commit activity visualisation. Rendered client-side."
   attr :commit_grid, :list, required: true
 
   def commit_mesh(assigns) do
-    grid = assigns.commit_grid
-    weeks = length(grid)
-    days = if weeks > 0, do: length(hd(grid)), else: 7
-    x_step = 14
-    line_spacing = 20
-    top_margin = 8
-    min_peak = 5
-    max_peak = 45
-
-    canvas_w = weeks * x_step
-    canvas_h = top_margin + max_peak + (days - 1) * line_spacing + 8
-
-    # One SVG path per day, drawn back-to-front so closer lines occlude farther ones.
-    # Each path is filled with the page background so it hides the lines behind it.
-    lines =
-      Enum.map(0..(days - 1), fn d ->
-        baseline_y = top_margin + max_peak + d * line_spacing
-        peak_scale = min_peak + div(d * (max_peak - min_peak), max(days - 1, 1))
-
-        pts =
-          [{-1, baseline_y}] ++
-            Enum.flat_map(0..(weeks - 1), fn wk ->
-              level = grid |> Enum.at(wk, []) |> Enum.at(d, 0)
-              xl = wk * x_step
-              xp = wk * x_step + div(x_step, 2)
-              xr = (wk + 1) * x_step
-
-              if level > 0 do
-                peak_y = baseline_y - div(level * peak_scale, 4)
-                [{xl, baseline_y}, {xp, peak_y}, {xr, baseline_y}]
-              else
-                [{xr, baseline_y}]
-              end
-            end)
-
-        path_pts =
-          pts
-          |> Enum.with_index()
-          |> Enum.map_join(" ", fn {{x, y}, i} ->
-            if i == 0, do: "M#{x} #{y}", else: "L#{x} #{y}"
-          end)
-
-        path_pts <> " L#{canvas_w + 1} #{baseline_y} L#{canvas_w + 1} #{canvas_h + 1} L-1 #{canvas_h + 1} Z"
-      end)
-
-    assigns =
-      assigns
-      |> assign(:lines, lines)
-      |> assign(:w, canvas_w)
-      |> assign(:h, canvas_h)
-
     ~H"""
-    <svg class="commit-mesh" width={@w} height={@h} xmlns="http://www.w3.org/2000/svg">
-      <%= for line_path <- @lines do %>
-        <path
-          d={line_path}
-          fill="#000"
-          stroke="rgba(255,255,255,0.65)"
-          stroke-width="2"
-          stroke-linejoin="round"
-        />
-      <% end %>
-    </svg>
+    <canvas class="commit-mesh" data-grid={Jason.encode!(@commit_grid)}></canvas>
     """
   end
 
