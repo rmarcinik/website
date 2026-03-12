@@ -86,6 +86,7 @@ defmodule WebsiteWeb do
       import Phoenix.HTML
       # Core UI components
       import WebsiteWeb.CoreComponents
+      import WebsiteWeb.PageComponents
 
       # Common modules used in templates
       alias Phoenix.LiveView.JS

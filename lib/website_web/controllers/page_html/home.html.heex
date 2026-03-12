@@ -1,15 +1,9 @@
 <Layouts.flash_group flash={@flash} />
-<div class="page-layout">
-  <%!-- Index panel --%>
-  <nav class="index-panel">
-    <p class="panel-path">{Application.get_env(:website, :owner_name)}</p>
-    
+<.page_layout path={Application.get_env(:website, :owner_name)}>
+  <:index>
     <ul class="space-y-1">
       <li data-nav-item><a href="/projects" class="nav-link">projects/</a></li>
-      
       <li data-nav-item><a href="/tests" class="nav-link">tests/</a></li>
     </ul>
-  </nav>
-   <%!-- Content panel --%>
-  <div class="flex-1"></div>
-</div>
+  </:index>
+</.page_layout>
