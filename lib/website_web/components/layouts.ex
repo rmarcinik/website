@@ -11,22 +11,6 @@ defmodule WebsiteWeb.Layouts do
   # and other static content.
   embed_templates "layouts/*"
 
-  @astro_symbols ~w(☉ ✦ ♄ ★ ☽ ⊕ ♃ · ✧ ☿ ♂ ° ♀ ∞ ⋆ ⊙)
-
-  def astro_background(assigns) do
-    assigns = assign(assigns, :symbols, Enum.join(@astro_symbols, ","))
-
-    ~H"""
-    <svg
-      id="astro-bg"
-      data-symbols={@symbols}
-      xmlns="http://www.w3.org/2000/svg"
-      class="fixed inset-0 -z-10 pointer-events-none select-none opacity-[0.05] text-base-content"
-      aria-hidden="true"
-    />
-    """
-  end
-
   @doc """
   Renders your app layout.
 

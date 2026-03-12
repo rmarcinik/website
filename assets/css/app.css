@@ -34,12 +34,6 @@ html, body {
 
 /* This file is for your main application CSS */
 
-/* Astronomy background symbol color — grayscale AA to avoid OLED subpixel fringing */
-#astro-bg {
-  color: oklch(75% 0.18 65);
-  -webkit-font-smoothing: antialiased;
-  text-rendering: geometricPrecision;
-}
 
 /* ── Layout ── */
 .page-layout {
