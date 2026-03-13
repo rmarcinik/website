@@ -34,6 +34,11 @@ defmodule Website.Projects do
           description: "Rigel ambigram logo",
           image: "/images/ambigram-white.svg",
           url: "/ambigram"
+        },
+        %{
+          type: :sim,
+          name: "hopf-fibration",
+          description: "20k particle Hopf fibration simulation"
         }
       ]
     }

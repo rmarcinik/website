@@ -168,3 +168,12 @@ initKeyNav()
 document.querySelectorAll("[data-rotatable]").forEach((img) => {
   img.addEventListener("click", () => img.classList.toggle("rotated"))
 })
+
+// Particle simulations — load sim script as ES module (imports THREE internally)
+const simCanvas = document.querySelector("[data-sim]")
+if (simCanvas) {
+  const sim = document.createElement("script")
+  sim.type = "module"
+  sim.src = "/assets/js/" + simCanvas.dataset.sim + ".js"
+  document.head.appendChild(sim)
+}

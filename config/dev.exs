@@ -16,6 +16,7 @@ config :website, WebsiteWeb.Endpoint,
   secret_key_base: "L7kGtzZc5uxCOSqAihft67moR2WKW0ptxxIfUuJoAJoL5QfhuajdgZ4gAXR+sOGj",
   watchers: [
     esbuild: {Esbuild, :install_and_run, [:website, ~w(--sourcemap=inline --watch)]},
+    esbuild_hopf_fibration: {Esbuild, :install_and_run, [:hopf_fibration, ~w(--sourcemap=inline --watch)]},
     tailwind: {Tailwind, :install_and_run, [:website, ~w(--watch)]}
   ]
 

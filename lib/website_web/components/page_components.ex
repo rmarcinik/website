@@ -72,14 +72,19 @@ defmodule WebsiteWeb.PageComponents do
   def project_content(assigns) do
     ~H"""
     <%= if @project do %>
-      <div class="content-inner">
-        <%= case @project.type do %>
-          <% :github -> %>
-            <.github_project project={@project} stats={@github_stats} />
-          <% :art -> %>
-            <.art_project project={@project} />
-        <% end %>
-      </div>
+      <%= case @project.type do %>
+        <% :sim -> %>
+          <.sim_project project={@project} />
+        <% _ -> %>
+          <div class="content-inner">
+            <%= case @project.type do %>
+              <% :github -> %>
+                <.github_project project={@project} stats={@github_stats} />
+              <% :art -> %>
+                <.art_project project={@project} />
+            <% end %>
+          </div>
+      <% end %>
     <% else %>
       <div class="empty-state">
         <p class="empty-state-text">select a project</p>
@@ -176,6 +181,14 @@ defmodule WebsiteWeb.PageComponents do
       data-rotatable
     />
     <p class="project-rotate-hint">click to rotate</p>
+    """
+  end
+
+  attr :project, :map, required: true
+
+  defp sim_project(assigns) do
+    ~H"""
+    <canvas class="sim-canvas" data-sim={@project.name}></canvas>
     """
   end
 
