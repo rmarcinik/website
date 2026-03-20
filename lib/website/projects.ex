@@ -22,6 +22,12 @@ defmodule Website.Projects do
           repo: "rmarcinik/ZombieGame",
           name: "ZombieGame",
           description: "turn based escape game"
+        },
+        %{
+          type: :github,
+          repo: "rmarcinik/leylines",
+          name: "leylines",
+          description: "3D physics sandbox"
         }
       ]
     },
