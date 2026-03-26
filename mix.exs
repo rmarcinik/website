@@ -86,7 +86,13 @@ defmodule Website.MixProject do
         "format",
         "website.fetch_github_stats",
         "website.save_test_results"
-      ]
+      ],
+      "docker.build": ["cmd docker compose build"],
+      "docker.up": ["cmd docker compose up -d"],
+      "docker.down": ["cmd docker compose down"],
+      "docker.logs": ["cmd docker compose logs -f app"],
+      deploy: ["cmd git pull", "cmd docker compose up -d --build"],
+      ship: ["cmd ssh $DEPLOY_HOST 'cd /opt/website && mix deploy'"]
     ]
   end
 end
