@@ -57,16 +57,12 @@ defmodule WebsiteWeb.CoreComponents do
       class={["flash-alert", @kind == :error && "flash-alert--error"]}
       {@rest}
     >
-      <.icon :if={@kind == :info} name="hero-information-circle" class="flash-icon" />
-      <.icon :if={@kind == :error} name="hero-exclamation-circle" class="flash-icon" />
       <div>
         <p :if={@title} class="flash-title">{@title}</p>
         <p>{msg}</p>
       </div>
       <div class="flash-spacer" />
-      <button type="button" class="flash-close" aria-label={gettext("close")}>
-        <.icon name="hero-x-mark" class="flash-icon" />
-      </button>
+      <button type="button" class="flash-close" aria-label={gettext("close")}>✕</button>
     </div>
     """
   end
@@ -291,7 +287,6 @@ defmodule WebsiteWeb.CoreComponents do
   defp error(assigns) do
     ~H"""
     <p class="mt-1.5 flex gap-2 items-center text-sm text-error">
-      <.icon name="hero-exclamation-circle" class="size-5" />
       {render_slot(@inner_block)}
     </p>
     """
@@ -407,33 +402,6 @@ defmodule WebsiteWeb.CoreComponents do
         </div>
       </li>
     </ul>
-    """
-  end
-
-  @doc """
-  Renders a [Heroicon](https://heroicons.com).
-
-  Heroicons come in three styles – outline, solid, and mini.
-  By default, the outline style is used, but solid and mini may
-  be applied by using the `-solid` and `-mini` suffix.
-
-  You can customize the size and colors of the icons by setting
-  width, height, and background color classes.
-
-  Icons are extracted from the `deps/heroicons` directory and bundled within
-  your compiled app.css by the plugin in `assets/vendor/heroicons.js`.
-
-  ## Examples
-
-      <.icon name="hero-x-mark" />
-      <.icon name="hero-arrow-path" class="ml-1 size-3 motion-safe:animate-spin" />
-  """
-  attr :name, :string, required: true
-  attr :class, :any, default: "size-4"
-
-  def icon(%{name: "hero-" <> _} = assigns) do
-    ~H"""
-    <span class={[@name, @class]} />
     """
   end
 
