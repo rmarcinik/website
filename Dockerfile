@@ -25,14 +25,15 @@ RUN mkdir config
 COPY config/config.exs config/prod.exs config/
 RUN mix deps.compile
 
-RUN mix assets.setup
-
 COPY priv priv
+COPY assets assets
 COPY lib lib
 
 RUN mix compile
 
-COPY assets assets
+RUN mkdir -p priv/static/assets/css priv/static/assets/js \
+  && cp -r assets/css/. priv/static/assets/css/ \
+  && cp -r assets/js/. priv/static/assets/js/
 RUN mix assets.deploy
 
 COPY config/runtime.exs config/

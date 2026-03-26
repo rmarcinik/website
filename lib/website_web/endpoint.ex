@@ -15,6 +15,11 @@ defmodule WebsiteWeb.Endpoint do
   #   websocket: [connect_info: [session: @session_options]],
   #   longpoll: [connect_info: [session: @session_options]]
 
+  # In dev, serve source assets directly from assets/ so edits are reflected without a build step.
+  if code_reloading? do
+    plug Plug.Static, at: "/assets", from: "assets", gzip: false
+  end
+
   # Serve at "/" the static files from "priv/static" directory.
   #
   # When code reloading is disabled (e.g., in production),

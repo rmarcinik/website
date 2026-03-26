@@ -30,8 +30,8 @@ defmodule WebsiteWeb.Layouts do
 
   def app(assigns) do
     ~H"""
-    <header class="px-8 py-6 flex items-center justify-between border-b border-base-300">
-      <a href="/" class="text-sm font-semibold tracking-tight">
+    <header class="site-header">
+      <a href="/" class="site-title">
         {Application.get_env(:website, :owner_name)}
       </a>
     </header>
@@ -53,7 +53,7 @@ defmodule WebsiteWeb.Layouts do
 
   def flash_group(assigns) do
     ~H"""
-    <div id={@id} aria-live="polite">
+    <div id={@id} class="flash-group" aria-live="polite">
       <.flash kind={:info} flash={@flash} /> <.flash kind={:error} flash={@flash} />
     </div>
     """

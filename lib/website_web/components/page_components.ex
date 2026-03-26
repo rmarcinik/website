@@ -24,7 +24,7 @@ defmodule WebsiteWeb.PageComponents do
           {render_slot(@content)}
         </div>
       <% else %>
-        <div class="flex-1"></div>
+        <div class="content-spacer"></div>
       <% end %>
     </div>
     """
@@ -36,11 +36,11 @@ defmodule WebsiteWeb.PageComponents do
 
   def project_nav(assigns) do
     ~H"""
-    <ul class="space-y-4">
+    <ul class="category-list">
       <%= for category <- @categories do %>
         <li>
           <p class="category-label">{category.name}</p>
-          <ul class="space-y-1">
+          <ul class="nav-list">
             <%= for project <- category.projects do %>
               <li
                 data-nav-item
@@ -197,7 +197,7 @@ defmodule WebsiteWeb.PageComponents do
 
   def test_nav(assigns) do
     ~H"""
-    <ul class="space-y-1">
+    <ul class="nav-list">
       <li data-nav-item>
         <span class={if @results.ok?, do: "test-status-pass", else: "test-status-fail"}>
           {if @results.ok?, do: "pass", else: "fail"}

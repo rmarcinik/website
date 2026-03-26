@@ -1,5 +1,3 @@
-import "phoenix_html"
-
 // Handle flash close
 document.querySelectorAll("[role=alert][data-flash]").forEach((el) => {
   el.addEventListener("click", () => {
@@ -115,7 +113,7 @@ const initSearch = () => {
       const a = document.createElement("a")
       a.href = p.href
       a.textContent = p.label
-      a.className = "text-base-content/60 hover:text-base-content transition-colors"
+      a.className = "nav-link"
       li.appendChild(a)
       results.appendChild(li)
     })

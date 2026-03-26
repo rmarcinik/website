@@ -14,11 +14,7 @@ config :website, WebsiteWeb.Endpoint,
   code_reloader: true,
   debug_errors: true,
   secret_key_base: "L7kGtzZc5uxCOSqAihft67moR2WKW0ptxxIfUuJoAJoL5QfhuajdgZ4gAXR+sOGj",
-  watchers: [
-    esbuild: {Esbuild, :install_and_run, [:website, ~w(--sourcemap=inline --watch)]},
-    esbuild_hopf_fibration: {Esbuild, :install_and_run, [:hopf_fibration, ~w(--sourcemap=inline --watch)]},
-    tailwind: {Tailwind, :install_and_run, [:website, ~w(--watch)]}
-  ]
+  watchers: []
 
 # ## SSL Support
 #
@@ -48,6 +44,8 @@ config :website, WebsiteWeb.Endpoint,
   live_reload: [
     web_console_logger: true,
     patterns: [
+      # Source assets (served directly in dev)
+      ~r"assets/.*\.(js|css)$"E,
       # Static assets, except user uploads
       ~r"priv/static/(?!uploads/).*\.(js|css|png|jpeg|jpg|gif|svg)$"E,
       # Gettext translations

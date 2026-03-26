@@ -45,8 +45,6 @@ defmodule Website.MixProject do
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 1.1.0"},
       {:lazy_html, ">= 0.1.0", only: :test},
-      {:esbuild, "~> 0.10", runtime: Mix.env() == :dev},
-      {:tailwind, "~> 0.3", runtime: Mix.env() == :dev},
       {:heroicons,
        github: "tailwindlabs/heroicons",
        tag: "v2.2.0",
@@ -71,15 +69,8 @@ defmodule Website.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      setup: ["deps.get", "assets.setup", "assets.build"],
-      "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
-      "assets.build": ["compile", "tailwind website", "esbuild website", "esbuild hopf_fibration"],
-      "assets.deploy": [
-        "tailwind website --minify",
-        "esbuild website --minify",
-        "esbuild hopf_fibration --minify",
-        "phx.digest"
-      ],
+      setup: ["deps.get"],
+      "assets.deploy": ["phx.digest"],
       precommit: [
         "compile --warnings-as-errors",
         "deps.unlock --unused",
