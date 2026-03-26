@@ -41,3 +41,5 @@ CLAUDE.md
 DEPLOY.md
 
 .elixir_ls/
+
+.env

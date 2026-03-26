@@ -91,8 +91,7 @@ defmodule Website.MixProject do
       "docker.up": ["cmd docker compose up -d"],
       "docker.down": ["cmd docker compose down"],
       "docker.logs": ["cmd docker compose logs -f app"],
-      deploy: ["cmd git pull", "cmd docker compose up -d --build"],
-      ship: ["cmd ssh $DEPLOY_HOST 'cd /opt/website && mix deploy'"]
+      deploy: ["cmd docker compose up -d --build"]
     ]
   end
 end
