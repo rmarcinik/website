@@ -1,9 +1,6 @@
 <Layouts.flash_group flash={@flash} />
 <.page_layout back="/" path={Application.get_env(:website, :owner_name) <> "/tests/"}>
-  <:index>
-    <.test_nav results={@results} />
-  </:index>
-  <:content>
-    <.test_content results={@results} />
-  </:content>
+  <:index><.test_nav results={@results} /></:index>
+  
+  <:content><.test_content results={@results} /></:content>
 </.page_layout>

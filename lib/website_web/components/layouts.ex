@@ -31,13 +31,11 @@ defmodule WebsiteWeb.Layouts do
   def app(assigns) do
     ~H"""
     <header class="site-header">
-      <a href="/" class="site-title">
-        {Application.get_env(:website, :owner_name)}
-      </a>
+      <a href="/" class="site-title">{Application.get_env(:website, :owner_name)}</a>
     </header>
 
     <main>{render_slot(@inner_block)}</main>
-    <.flash_group flash={@flash} />
+     <.flash_group flash={@flash} />
     """
   end
 
