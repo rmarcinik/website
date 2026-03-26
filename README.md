@@ -1,72 +1,47 @@
 # Website
 
-Personal website for Rigel Marcinik, built with [Phoenix](https://www.phoenixframework.org/) 1.8.
+Personal website for Rigel Marcinik, built with Phoenix 1.8.
 
-## Getting started
+## Dev
 
 ```bash
-mix setup          # install deps and build assets
-mix phx.server     # start dev server at localhost:4000
+mix setup          # install deps
+mix phx.server     # localhost:4000
 ```
 
-## Code flow
+Edit CSS and JS directly — no build step required:
 
-### Request entry
+- `assets/css/app.css`
+- `assets/js/app.js`
 
-Every HTTP request enters through `WebsiteWeb.Endpoint` (`lib/website_web/endpoint.ex`), which runs a plug pipeline: static file serving → session management → router.
+Add or edit projects in `lib/website/projects.ex`.
 
-### Routing
+## Deploy
 
-`lib/website_web/router.ex` defines a single browser pipeline that adds session, flash, CSRF protection, and the root layout. Routes map to controllers:
-
-```
-GET /  →  PageController.home
-```
-
-### Controller → template
-
-`lib/website_web/controllers/page_controller.ex` calls `render(conn, :home)`, which invokes the `home` function compiled from `lib/website_web/controllers/page_html/home.html.heex` by `page_html.ex`.
-
-To add a new page:
-1. Add a route in `router.ex`
-2. Add an action to `page_controller.ex` (or create a new controller)
-3. Add a template at `lib/website_web/controllers/page_html/<name>.html.heex`
-
-### Layout nesting
-
-Templates render inside two nested layouts:
-
-```
-root.html.heex          ← HTML document shell (head, body, theme script, astro background)
-  └─ {@inner_content}
-       └─ home.html.heex
-            └─ <Layouts.app flash={@flash}>  ← site chrome (header, main, flash)
-                 └─ page content
+```bash
+mix precommit
+git add -p && git commit -m "..."
+mix deploy
 ```
 
-**`layouts/root.html.heex`** (`lib/website_web/components/layouts/root.html.heex`)
-HTML skeleton. Contains the `<head>` with CSS/JS links, an inline script that applies the saved theme before first paint, and the `<.astro_background />` SVG.
-
-**`Layouts.app`** (`lib/website_web/components/layouts.ex`)
-Site chrome component used by every page template. Renders the header (owner name + theme toggle) and wraps `{render_slot(@inner_block)}` in `<main>`.
-
-### Key components (`lib/website_web/components/layouts.ex`)
-
-| Component | Purpose |
+| Command | Does |
 |---|---|
-| `app/1` | Page wrapper with header and main |
-| `flash_group/1` | Info and error flash banners |
+| `mix deploy` | rebuild image and restart |
+| `mix docker.logs` | tail app logs |
+| `mix docker.down` | stop services |
+| `mix docker.up` | start without rebuilding |
 
-### Owner name
+## One-time setup
 
-Configured once in `config/config.exs`:
-```elixir
-config :website, owner_name: "Rigel"
+**Cloudflare Tunnel** — [Zero Trust dashboard](https://one.dash.cloudflare.com) → Networks → Tunnels → Create → name `website` → Public Hostnames: `yourdomain.com → http://app:4000` → copy the tunnel token. Set SSL/TLS to **Full**.
+
+**`.env`**
+
 ```
-Read in templates via `Application.get_env(:website, :owner_name)`.
-
-### Assets
-
-- **CSS**: `assets/css/app.css` — Tailwind v4
-- **JS**: `assets/js/app.js` — flash handler, astronomy background renderer
-- Bundled by esbuild + Tailwind, output to `priv/static/assets/`
+SECRET_KEY_BASE=<output of: mix phx.gen.secret>
+PHX_HOST=yourdomain.com
+PHX_SERVER=true
+PORT=4000
+MIX_ENV=prod
+CLOUDFLARE_TUNNEL_TOKEN=<tunnel token>
+```

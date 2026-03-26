@@ -32,7 +32,6 @@ website-*.tar
 .vscode/
 
 CLAUDE.md
-DEPLOY.md
 
 .elixir_ls/
 
