@@ -165,7 +165,6 @@ function renderGithubStats(container, stats) {
       ${stats.readme ? `<pre class="readme-content">${escapeHtml(stats.readme)}</pre>` : ""}
     </div>`);
 
-  initCommitMesh(container.querySelector("canvas.commit-mesh"));
 }
 
 function langsHtml(languages) {

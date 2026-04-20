@@ -56,7 +56,7 @@ async function fetchRepoStats(repo, token) {
   const [repoData, langs, activity, readmeData] = await Promise.all([
     repoRes.json(),
     langsRes.json(),
-    activityRes.ok ? activityRes.json() : Promise.resolve([]),
+    activityRes.ok ? activityRes.json().catch(() => []) : Promise.resolve([]),
     readmeRes.ok ? readmeRes.json() : Promise.resolve({}),
   ]);
 
@@ -80,7 +80,9 @@ function langPercentages(langs) {
 }
 
 function commitGrid(activity) {
-  if (!Array.isArray(activity)) return [];
+  if (!Array.isArray(activity) || activity.length === 0) {
+    return Array.from({ length: 52 }, () => [0, 0, 0, 0, 0, 0, 0]);
+  }
   return activity.map(week => week.days);
 }
 
