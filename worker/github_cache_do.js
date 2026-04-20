@@ -48,19 +48,19 @@ async function fetchRepoStats(repo, token) {
   };
   const base = "https://api.github.com";
 
-  const [repoRes, langsRes, activityRes, readmeRes] = await Promise.all([
+  const since = new Date(Date.now() - 365 * 24 * 3600 * 1000).toISOString();
+
+  const [repoRes, langsRes, commitsRes, readmeRes] = await Promise.all([
     fetch(`${base}/repos/${repo}`, { headers }),
     fetch(`${base}/repos/${repo}/languages`, { headers }),
-    fetch(`${base}/repos/${repo}/stats/commit_activity`, { headers }),
+    fetch(`${base}/repos/${repo}/commits?per_page=100&since=${since}`, { headers }),
     fetch(`${base}/repos/${repo}/readme`, { headers }),
   ]);
 
-  const activityReady = activityRes.status === 200;
-
-  const [repoData, langs, activity, readmeData] = await Promise.all([
+  const [repoData, langs, commits, readmeData] = await Promise.all([
     repoRes.json(),
     langsRes.json(),
-    activityReady ? activityRes.json().catch(() => []) : Promise.resolve([]),
+    commitsRes.ok ? commitsRes.json().catch(() => []) : Promise.resolve([]),
     readmeRes.ok ? readmeRes.json() : Promise.resolve({}),
   ]);
 
@@ -71,10 +71,10 @@ async function fetchRepoStats(repo, token) {
       issues: repoData.open_issues_count,
       pushed_at: repoData.pushed_at,
       languages: langPercentages(langs),
-      commit_grid: commitGrid(activity),
+      commit_grid: commitsToGrid(commits),
       readme: decodeReadme(readmeData.content),
     },
-    cacheable: activityReady,
+    cacheable: repoRes.ok,
   };
 }
 
@@ -86,11 +86,33 @@ function langPercentages(langs) {
     .sort((a, b) => b.pct - a.pct);
 }
 
-function commitGrid(activity) {
-  if (!Array.isArray(activity) || activity.length === 0) {
-    return Array.from({ length: 52 }, () => [0, 0, 0, 0, 0, 0, 0]);
+function commitsToGrid(commits) {
+  const epoch = Date.now() - 52 * 7 * 24 * 3600 * 1000;
+  const counts = {};
+
+  for (const commit of commits) {
+    const date = commit?.commit?.author?.date;
+    if (!date) continue;
+    const ms = new Date(date).getTime();
+    const week = Math.floor((ms - epoch) / (7 * 24 * 3600 * 1000));
+    const day = new Date(date).getDay();
+    if (week < 0 || week > 51) continue;
+    const key = `${week},${day}`;
+    counts[key] = (counts[key] ?? 0) + 1;
   }
-  return activity.map(week => week.days);
+
+  const max = Math.max(1, ...Object.values(counts));
+
+  return Array.from({ length: 52 }, (_, week) =>
+    Array.from({ length: 7 }, (_, day) => {
+      const n = counts[`${week},${day}`] ?? 0;
+      if (n === 0) return 0;
+      if (n <= max * 0.25) return 1;
+      if (n <= max * 0.5) return 2;
+      if (n <= max * 0.75) return 3;
+      return 4;
+    })
+  );
 }
 
 function decodeReadme(content) {
