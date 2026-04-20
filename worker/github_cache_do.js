@@ -28,11 +28,13 @@ export class GithubCacheDO extends DurableObject {
   }
 
   async #refresh(repo) {
-    const data = await fetchRepoStats(repo, this.env.GITHUB_TOKEN);
-    this.ctx.storage.sql.exec(
-      "INSERT OR REPLACE INTO cache (repo, data, fetched_at) VALUES (?, ?, ?)",
-      repo, JSON.stringify(data), new Date().toISOString()
-    );
+    const { data, cacheable } = await fetchRepoStats(repo, this.env.GITHUB_TOKEN);
+    if (cacheable) {
+      this.ctx.storage.sql.exec(
+        "INSERT OR REPLACE INTO cache (repo, data, fetched_at) VALUES (?, ?, ?)",
+        repo, JSON.stringify(data), new Date().toISOString()
+      );
+    }
     return data;
   }
 }
@@ -53,21 +55,26 @@ async function fetchRepoStats(repo, token) {
     fetch(`${base}/repos/${repo}/readme`, { headers }),
   ]);
 
+  const activityReady = activityRes.status === 200;
+
   const [repoData, langs, activity, readmeData] = await Promise.all([
     repoRes.json(),
     langsRes.json(),
-    activityRes.ok ? activityRes.json().catch(() => []) : Promise.resolve([]),
+    activityReady ? activityRes.json().catch(() => []) : Promise.resolve([]),
     readmeRes.ok ? readmeRes.json() : Promise.resolve({}),
   ]);
 
   return {
-    stars: repoData.stargazers_count,
-    forks: repoData.forks_count,
-    issues: repoData.open_issues_count,
-    pushed_at: repoData.pushed_at,
-    languages: langPercentages(langs),
-    commit_grid: commitGrid(activity),
-    readme: decodeReadme(readmeData.content),
+    data: {
+      stars: repoData.stargazers_count,
+      forks: repoData.forks_count,
+      issues: repoData.open_issues_count,
+      pushed_at: repoData.pushed_at,
+      languages: langPercentages(langs),
+      commit_grid: commitGrid(activity),
+      readme: decodeReadme(readmeData.content),
+    },
+    cacheable: activityReady,
   };
 }
 

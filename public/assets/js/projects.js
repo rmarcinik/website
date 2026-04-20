@@ -164,7 +164,6 @@ function renderGithubStats(container, stats) {
       ${commitGridHtml(stats.commit_grid)}
       ${stats.readme ? `<pre class="readme-content">${escapeHtml(stats.readme)}</pre>` : ""}
     </div>`);
-
 }
 
 function langsHtml(languages) {
@@ -181,7 +180,7 @@ function commitGridHtml(grid) {
   if (!grid?.length) return "";
   const cells = grid.flatMap(week => week.map(level =>
     `<div class="commit-cell" style="--level:${level}"></div>`)).join("");
-  return `<div class="commit-grid">${cells}</div><canvas class="commit-mesh" data-grid='${JSON.stringify(grid)}'></canvas>`;
+  return `<div class="commit-grid">${cells}</div>`;
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
