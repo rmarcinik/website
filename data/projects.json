@@ -1,0 +1,18 @@
+[
+  {
+    "name": "github",
+    "projects": [
+      { "type": "github", "name": "mehome",       "repo": "rmarcinik/mehome",     "description": "home lab infrastructure" },
+      { "type": "github", "name": "website",      "repo": "rmarcinik/website",    "description": "personal website" },
+      { "type": "github", "name": "ZombieGame",   "repo": "rmarcinik/ZombieGame", "description": "turn based escape game" },
+      { "type": "github", "name": "leylines",     "repo": "rmarcinik/leylines",   "description": "3D physics sandbox" }
+    ]
+  },
+  {
+    "name": "art",
+    "projects": [
+      { "type": "art", "name": "ambigram",       "description": "Rigel ambigram logo",                   "image": "/images/ambigram-white.svg", "url": "/ambigram" },
+      { "type": "sim", "name": "hopf-fibration", "description": "20k particle Hopf fibration simulation" }
+    ]
+  }
+]

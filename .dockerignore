@@ -1,7 +1,0 @@
-_build/
-deps/
-.vscode/
-.elixir_ls/
-.git/
-node_modules/
-*.md

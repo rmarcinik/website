@@ -36,3 +36,6 @@ website-*.tar
 .elixir_ls/
 
 .env
+.dev.vars
+.wrangler/
+node_modules/

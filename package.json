@@ -1,0 +1,13 @@
+{
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "release": "wrangler deploy",
+    "upload:projects": "node scripts/upload_projects.js",
+    "upload:projects:prod": "node scripts/upload_projects.js --prod",
+    "upload:secrets": "node scripts/upload_secrets.js"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}

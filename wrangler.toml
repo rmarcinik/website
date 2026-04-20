@@ -1,0 +1,23 @@
+name = "website"
+compatibility_date = "2025-01-01"
+main = "worker/index.js"
+
+[assets]
+directory = "public"
+binding = "ASSETS"
+
+[[durable_objects.bindings]]
+name = "GITHUB_CACHE"
+class_name = "GithubCacheDO"
+
+[[durable_objects.bindings]]
+name = "PROJECTS"
+class_name = "ProjectsDO"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["GithubCacheDO"]
+
+[[migrations]]
+tag = "v2"
+new_sqlite_classes = ["ProjectsDO"]
