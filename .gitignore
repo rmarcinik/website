@@ -31,7 +31,7 @@ website-*.tar
 
 .vscode/
 
-CLAUDE.md
+.claude/
 
 .elixir_ls/
 
