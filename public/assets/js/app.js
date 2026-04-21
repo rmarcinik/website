@@ -40,16 +40,12 @@ const initSearch = () => {
 
 initSearch()
 
-// Keyboard navigation (yazi/nnn-style arrow key nav through the left nav panel)
+// Keyboard navigation (yazi/nnn-style arrow key nav)
 const initKeyNav = () => {
-  const nav = document.querySelector("nav")
-  if (!nav) return
-
-  const items = Array.from(nav.querySelectorAll("li[data-nav-item]"))
+  const items = Array.from(document.querySelectorAll("li[data-nav-item]"))
   if (items.length === 0) return
 
-  let cursor = items.findIndex(li => li.querySelector("[data-current]"))
-  if (cursor === -1) cursor = 0
+  let cursor = 0
 
   const render = () => {
     items.forEach((li, i) => li.classList.toggle("nav-cursor", i === cursor))
@@ -70,9 +66,6 @@ const initKeyNav = () => {
     } else if (e.key === "ArrowRight") {
       const a = items[cursor]?.querySelector("a")
       if (a) window.location.href = a.href
-    } else if (e.key === "ArrowLeft") {
-      const back = nav.dataset.back
-      if (back) window.location.href = back
     }
   })
 }
