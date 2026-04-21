@@ -195,7 +195,9 @@ function commitGridHtml(grid) {
   if (!grid?.length) return ""
   const cells = grid.flatMap(week => week.map(level =>
     `<div class="commit-cell" style="--level:${level}"></div>`)).join("")
-  return `<div class="commit-grid">${cells}</div>`
+  const bars = grid.map(week =>
+    `<span class="commit-bar" style="--level:${Math.max(...week)}">|</span>`).join("")
+  return `<div class="commit-grid">${cells}</div><div class="commit-bars">${bars}</div>`
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────

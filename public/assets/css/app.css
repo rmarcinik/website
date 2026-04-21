@@ -396,6 +396,24 @@ a.project-name:hover { color: var(--color-primary); }
   opacity: calc(var(--level) * 0.23 + 0.06);
 }
 
+.commit-bars {
+  display: none;
+  font-family: monospace;
+  font-size: 0.625rem;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+.commit-bar {
+  color: var(--color-base-content);
+  opacity: calc(var(--level) * 0.23 + 0.06);
+}
+
+@media (max-width: 640px) {
+  .commit-grid { display: none; }
+  .commit-bars { display: block; }
+}
+
 /* ── Triangular mesh commit canvas ── */
 .commit-mesh {
   display: block;
