@@ -5,6 +5,7 @@
       { "type": "github", "name": "mehome",       "repo": "rmarcinik/mehome",     "description": "home lab infrastructure" },
       { "type": "github", "name": "website",      "repo": "rmarcinik/website",    "description": "personal website" },
       { "type": "github", "name": "ZombieGame",   "repo": "rmarcinik/ZombieGame", "description": "turn based escape game" },
+      { "type": "github", "name": "maps",         "repo": "rmarcinik/maps",       "description": "mapp app" },
       { "type": "github", "name": "leylines",     "repo": "rmarcinik/leylines",   "description": "3D physics sandbox" }
     ]
   },
