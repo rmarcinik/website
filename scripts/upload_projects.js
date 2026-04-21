@@ -4,7 +4,7 @@ import { fileURLToPath } from "url";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const DEV_URL = "http://localhost:8787";
-const PROD_URL = "https://rigelmarcinik.com";
+const PROD_URL = "https://rmar.xyz";
 
 function loadSecret() {
   const text = readFileSync(resolve(root, ".dev.vars"), "utf8");

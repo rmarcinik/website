@@ -146,8 +146,7 @@ function renderArt(container, project) {
 function renderGithubHeader(container, project) {
   container.innerHTML = `
     <div class="project-header">
-      <span class="project-name">${project.name}</span>
-      <a href="https://github.com/${project.repo}" target="_blank" rel="noopener noreferrer" class="repo-link">${project.repo}</a>
+      <a href="https://github.com/${project.repo}" target="_blank" rel="noopener noreferrer" class="project-name">${project.name}</a>
     </div>`;
 }
 

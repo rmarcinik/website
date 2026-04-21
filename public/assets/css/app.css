@@ -125,7 +125,9 @@ html, body {
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--color-base-content);
+  transition: color 0.15s ease;
 }
+a.project-name:hover { color: var(--color-primary); }
 
 .project-description {
   font-size: 0.875rem;
@@ -156,12 +158,6 @@ html, body {
 }
 .project-image-link:hover { opacity: 0.9; }
 
-.repo-link {
-  font-size: 0.75rem;
-  color: var(--color-primary);
-  transition: color 0.15s ease;
-}
-.repo-link:hover { color: color-mix(in oklch, var(--color-primary) 80%, transparent); }
 
 .empty-state {
   display: flex;
