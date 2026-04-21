@@ -39,3 +39,4 @@ website-*.tar
 .dev.vars
 .wrangler/
 node_modules/
+website.code-workspace
