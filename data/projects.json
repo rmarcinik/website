@@ -13,7 +13,8 @@
     "name": "art",
     "projects": [
       { "type": "art", "name": "ambigram",       "description": "Rigel ambigram logo",                   "image": "/images/ambigram-white.svg" },
-      { "type": "sim", "name": "hopf-fibration", "description": "20k particle Hopf fibration simulation" }
+      { "type": "sim", "name": "particles", "description": "20k particle simulation" },
+      { "type": "sim", "name": "room",     "description": "room woven from glyphs" }
     ]
   }
 ]

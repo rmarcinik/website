@@ -1,8 +1,8 @@
 // Hopf Fibration — 20k particle simulation
-// Loaded as an ES module when [data-sim="hopf-fibration"] canvas is found.
+// Loaded as an ES module when [data-sim="particles"] canvas is found.
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.175.0/build/three.module.js"
 
-const canvas = document.querySelector("[data-sim='hopf-fibration']")
+const canvas = document.querySelector("[data-sim='particles']")
 if (!canvas) throw new Error("hopf canvas not found")
 
 const panel = canvas.parentElement
