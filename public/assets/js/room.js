@@ -1,4 +1,4 @@
-// Kanji Room — a first-person room woven from kanji glyphs.
+// Room — a first-person room woven from kanji glyphs.
 // Loaded as an ES module when [data-sim="room"] canvas is found.
 // Walk closer (WASD + mouse look) and the glyphs resolve into focus.
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.175.0/build/three.module.js"
@@ -27,7 +27,7 @@ camera.position.set(0, 1.6, 4)
 
 scene.add(new THREE.AmbientLight(0xffffff, 1))
 
-// ── Kanji → texture cache. Each glyph becomes a glowing sprite. ────────────────
+// ── Kanji → texture cache. The glyph fills the quad so tiles read as a surface. ─
 
 const textureCache = new Map()
 
@@ -39,11 +39,11 @@ function kanjiTexture(char, color) {
   const c = document.createElement("canvas")
   c.width = c.height = size
   const ctx = c.getContext("2d")
-  ctx.font = `700 ${size * 0.2}px "Yu Gothic", "Meiryo", "MS Gothic", serif`
+  ctx.font = `700 ${size * 0.78}px "Yu Gothic", "Meiryo", "MS Gothic", serif`
   ctx.textAlign = "center"
   ctx.textBaseline = "middle"
   ctx.shadowColor = color
-  ctx.shadowBlur = 18
+  ctx.shadowBlur = 8
   ctx.fillStyle = color
   ctx.fillText(char, size / 2, size / 2 + 4)
   ctx.shadowBlur = 0
@@ -86,24 +86,24 @@ const palette = {
 
 const rand = (a) => (Math.random() - 0.5) * a
 
-// Floor — dense grid of 床, packed tight enough to read as a surface
-for (let x = -ROOM; x <= ROOM; x += 0.7)
-  for (let z = -ROOM; z <= ROOM; z += 0.7)
-    addGlyph("床", palette.floor, new THREE.Vector3(x + rand(0.12), 0.02, z + rand(0.12)), 0.7)
+// Floor — 床 tiled shoulder-to-shoulder (spacing ≈ glyph width)
+for (let x = -ROOM; x <= ROOM; x += 0.6)
+  for (let z = -ROOM; z <= ROOM; z += 0.6)
+    addGlyph("床", palette.floor, new THREE.Vector3(x + rand(0.06), 0.02, z + rand(0.06)), 0.65)
 
 // The far wall (z = -ROOM) has a doorway cut out of it for the 扉 glyphs
 const inDoorway = (x, y) => x > -1.1 && x < 1.1 && y < 2.9
 
 // Walls — 壁, four sides, tiled to a solid skin
-for (let y = 0.4; y <= HGT; y += 0.6) {
-  for (let x = -ROOM; x <= ROOM; x += 0.7) {
+for (let y = 0.4; y <= HGT; y += 0.55) {
+  for (let x = -ROOM; x <= ROOM; x += 0.6) {
     if (!inDoorway(x, y))
-      addGlyph("壁", palette.wall, new THREE.Vector3(x + rand(0.1), y, -ROOM), 0.7)
-    addGlyph("壁", palette.wall, new THREE.Vector3(x + rand(0.1), y,  ROOM), 0.7)
+      addGlyph("壁", palette.wall, new THREE.Vector3(x + rand(0.05), y, -ROOM), 0.65)
+    addGlyph("壁", palette.wall, new THREE.Vector3(x + rand(0.05), y,  ROOM), 0.65)
   }
-  for (let z = -ROOM; z <= ROOM; z += 0.7) {
-    addGlyph("壁", palette.wall, new THREE.Vector3(-ROOM, y, z + rand(0.1)), 0.7)
-    addGlyph("壁", palette.wall, new THREE.Vector3( ROOM, y, z + rand(0.1)), 0.7)
+  for (let z = -ROOM; z <= ROOM; z += 0.6) {
+    addGlyph("壁", palette.wall, new THREE.Vector3(-ROOM, y, z + rand(0.05)), 0.65)
+    addGlyph("壁", palette.wall, new THREE.Vector3( ROOM, y, z + rand(0.05)), 0.65)
   }
 }
 
@@ -134,7 +134,7 @@ const hud = document.createElement("div")
 hud.className = "sim-hud"
 const hudTitle = document.createElement("p"); hudTitle.className = "sim-hud-title"
 const hudDesc  = document.createElement("p"); hudDesc.className  = "sim-hud-desc"
-hudTitle.textContent = "Kanji Room"
+hudTitle.textContent = "Room"
 hudDesc.textContent  = "A room woven from characters. Click to look around · WASD to move · ESC to release. Walk closer and the glyphs resolve."
 hud.append(hudTitle, hudDesc)
 panel.appendChild(hud)
@@ -159,7 +159,7 @@ const keys = {}
 addEventListener("keydown", (e) => { keys[e.code] = true })
 addEventListener("keyup",   (e) => { keys[e.code] = false })
 
-const SPEED = 2.5
+const SPEED = 3.5
 const BOUND = ROOM - 0.6
 const up = new THREE.Vector3(0, 1, 0)
 const forward = new THREE.Vector3()
